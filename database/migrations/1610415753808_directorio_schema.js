@@ -5,19 +5,17 @@ const Schema = use('Schema')
 
 class DirectorioSchema extends Schema {
   up () {
-    this.table('directorios', (table) => {
+    this.create('directorios', (table) => {
       table.increments()
-      table.string('NombreCompleto').notNulleable();
+      table.string('Nombre_Completo').notNullable();
       table.string('Direccion');
-      table.string('Telefono').unique().notNulleable();
+      table.integer('Telefono').unique().notNullable();
       table.timestamps()
     })
   }
 
   down () {
-    this.table('directorios', (table) => {
-      // reverse alternations
-    })
+    this.drop('directorios')
   }
 }
 
