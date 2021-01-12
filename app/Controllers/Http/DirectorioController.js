@@ -1,34 +1,67 @@
 'use strict'
 
-//const Directorio = require('../../Models/Directorio')
 const Directorio = use('App/Models/Directorio')
-
+const {validateAll} = use('Validator')
 
 class DirectorioController {
-  async index ({ request, response,})
+  //GET
+  async index ({ request})
   {
     return await Directorio.all();
   }
 
-  async store ({ request, response })
-  {
-
+  //POST
+  async store ({ request, response}) {
+    const input = request.all()
+    const validation = await validateAll(input, {
+    'telefono' : 'required|unique:directorios,telefono'
+  })
+  if(validation.fails()){
+    return validation.messages();
   }
 
+    await Directorio.create(input)
 
-  async show ({ params, request, response})
-  {
-    return await Directorio.findOrFail(params.id);
+    return response.json({
+      rer:true,
+      message: "Se a insertado correctamente"
+    })
   }
 
-  async update ({ params, request, response })
-  {
-
+  //get
+  async show ({ params, request, response}) {
+    return await Directorio.findOrFail(params.id)
   }
 
-  async destroy ({ params, request, response })
-  {
+  //put
+  async update ({ params, request, response }) {
+    const input = request.all()
 
+  const validation = await validateAll(input, {
+
+    'telefono' : 'required|unique:directorios,telefono,id,' + params.id
+  })
+  if(validation.fails()){
+    return validation.messages();
+  }
+
+    await Directorio.query().where('id' , params.id).update(input)
+
+    return response.json({
+      rer:true,
+      message: "Se a modificado correctamente"
+    })
+  }
+
+  //delete
+  async destroy ({ params, response}) {
+    const directorio = await Directorio.findOrFail(params.id)
+    await directorio.delete()
+
+    return response.json({
+      rer:true,
+      message: "El registro a sido eliminado"
+    })
   }
 }
 

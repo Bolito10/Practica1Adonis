@@ -6,7 +6,12 @@ const Model = use('Model')
 class Directorio extends Model {
   static get table(){
     return 'directorios';
+
   }
+  static get hidden()
+    {
+      return ['created_at' , 'updated_at']
+    }
 }
 
 module.exports = Directorio
