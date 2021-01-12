@@ -17,3 +17,5 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+
+Route.resource('directorios', 'DirectorioController').apiOnly();
