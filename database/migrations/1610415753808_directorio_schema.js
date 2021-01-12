@@ -9,7 +9,7 @@ class DirectorioSchema extends Schema {
       table.increments()
       table.string('Nombre_Completo').notNullable();
       table.string('Direccion');
-      table.integer('Telefono').unique().notNullable();
+      table.string('Telefono').unique().notNullable();
       table.timestamps()
     })
   }
